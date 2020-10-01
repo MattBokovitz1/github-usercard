@@ -3,7 +3,10 @@
     (replacing the placeholder with your Github name):
     https://api.github.com/users/<your name>
 */
+import axios from 'axios'
 
+
+ 
 /*
   STEP 2: Inspect and study the data coming back, this is YOUR
     github info! You will need to understand the structure of this
@@ -15,7 +18,7 @@
 /*
   STEP 4: Pass the data received from Github into your function,
     and append the returned markup to the DOM as a child of .cards
-*/
+// 
 
 /*
   STEP 5: Now that you have your own card getting added to the DOM, either
@@ -28,7 +31,7 @@
     user, and adding that card to the DOM.
 */
 
-const followersArray = [];
+
 
 /*
   STEP 3: Create a function that accepts a single object as its only argument.
@@ -49,7 +52,62 @@ const followersArray = [];
       </div>
     </div>
 */
+function personCard(obj){
 
+  // creating style and markup
+  const cards = document.querySelector('.cards')
+  const card = document.createElement('div')
+  card.classList.add('card')
+  const image = document.createElement('img')
+  image.classList.add('card img')
+  const cardInfo = document.createElement('div')
+  const titleName = document.createElement('h3')
+  titleName.classList.add('name')
+  const username = document.createElement('p')
+  username.classList.add('username')
+  const usersLocation = document.createElement('p')
+  const profile = document.createElement('p')
+  const link = document.createElement('a')
+  const followers = document.createElement('p')
+  const following = document.createElement('p')
+  const bio = document.createElement('p')
+  image.src = obj.avatar_url
+
+  // Adding Text
+  titleName.textContent = obj.name
+  username.textContent = obj.login
+  usersLocation.textContent = `Location: ${obj.usersLocation}`
+  profile.textContent = `Profile: `
+  link.textContent = obj.html_url
+  followers.textContent = `Followers: ${obj.followers}`
+  following.textContent = `Following: ${obj.following}`
+  bio.textContent = `Bio: ${obj.bio}`
+  //Making Child/Parent
+  cards.appendChild(card)
+  card.append(image)
+  card.append(cardInfo)
+  cardInfo.append(titleName)
+  cardInfo.append(username)
+  cardInfo.append(usersLocation)
+  cardInfo.append(profile)
+  cardInfo.append(link)
+  cardInfo.append(followers)
+  cardInfo.append(following)
+  cardInfo.append(bio)
+
+  return cards
+
+}
+
+const followersArray = [];
+axios.get('https://api.github.com/users/MattBokovitz1')
+  .then(res => {
+    cards.appendChild.personCard(res.data);
+    return axios.get('https://api.github.com/users/MattBokovitz1/followers')
+  })
+  .catch(err => {
+    console.log(err)
+  })
 /*
   List of LS Instructors Github username's:
     tetondan
