@@ -59,7 +59,7 @@ function personCard(obj){
   const card = document.createElement('div')
   card.classList.add('card')
   const image = document.createElement('img')
-  image.classList.add('card img')
+  image.classList.add('card-img')
   const cardInfo = document.createElement('div')
   const titleName = document.createElement('h3')
   titleName.classList.add('name')
@@ -76,7 +76,7 @@ function personCard(obj){
   // Adding Text
   titleName.textContent = obj.name
   username.textContent = obj.login
-  usersLocation.textContent = `Location: ${obj.usersLocation}`
+  usersLocation.textContent = `Location: ${obj.location}`
   profile.textContent = `Profile: `
   link.textContent = obj.html_url
   followers.textContent = `Followers: ${obj.followers}`
@@ -99,15 +99,24 @@ function personCard(obj){
 
 }
 
-const followersArray = [];
-axios.get('https://api.github.com/users/MattBokovitz1')
+const cards = document.querySelector(".cards")
+
+const followersArray = []
+axios.get("https://api.github.com/users/MattBokovitz1/")
+	.then((res) => {
+		cards.appendChild(personCard(res.data))
+		return axios.get("https://api.github.com/users/MattBokovitz1/followers")
+  })
   .then(res => {
-    cards.appendChild.personCard(res.data);
-    return axios.get('https://api.github.com/users/MattBokovitz1/followers')
+    console.log(res.data);
+    followersArray.push(res.data)
   })
-  .catch(err => {
-    console.log(err)
+	.catch((err) => {
+		console.log(err)
   })
+  
+
+
 /*
   List of LS Instructors Github username's:
     tetondan
